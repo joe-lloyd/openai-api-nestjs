@@ -1,10 +1,11 @@
 import { Controller, Post, Body, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiBody } from '@nestjs/swagger';
+import { ApiTags, ApiBody, ApiBearerAuth } from '@nestjs/swagger';
 import { OpenaiService } from './openai.service';
 import { ChatPromptDto } from './dto/chat-prompt/chat-prompt';
 import { AuthGuard } from '@nestjs/passport';
 import { ApprovedGuard } from '../auth/approved/approved.guard';
 
+@ApiBearerAuth()
 @ApiTags('openai')
 @Controller('openai')
 @UseGuards(AuthGuard('jwt'), ApprovedGuard)
