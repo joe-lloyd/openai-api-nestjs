@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
@@ -11,6 +12,7 @@ export class AuthService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly jwtService: JwtService,
+    private configService: ConfigService,
   ) {}
 
   async login(email: string, password: string): Promise<string> {
@@ -21,13 +23,17 @@ export class AuthService {
     if (!user.isApproved) {
       throw new Error('User not approved by admin');
     }
-    const payload = { email: user.email, sub: user.id };
+    const payload = {
+      email: user.email,
+      sub: user.id,
+      isApproved: user.isApproved,
+    };
     return this.jwtService.sign(payload);
   }
 
   async seedAdmin() {
-    const adminEmail = process.env.ADMIN_EMAIL;
-    const adminPassword = process.env.ADMIN_PASSWORD;
+    const adminEmail = this.configService.get<string>('ADMIN_EMAIL');
+    const adminPassword = this.configService.get<string>('ADMIN_PASSWORD');
 
     if (!adminEmail || !adminPassword) {
       console.error(

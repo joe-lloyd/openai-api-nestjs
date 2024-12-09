@@ -6,9 +6,11 @@ import { OpenaiController } from './openai/openai.controller';
 import { OpenaiModule } from './openai/openai.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     OpenaiModule,
     AuthModule,
     TypeOrmModule.forRoot({

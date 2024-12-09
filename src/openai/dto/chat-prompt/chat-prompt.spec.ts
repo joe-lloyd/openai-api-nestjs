@@ -1,7 +1,7 @@
-import { ChatPrompt } from './chat-prompt';
+import { ChatPromptDto } from './chat-prompt';
 
 describe('ChatPrompt', () => {
   it('should be defined', () => {
-    expect(new ChatPrompt()).toBeDefined();
+    expect(new ChatPromptDto()).toBeDefined();
   });
 });

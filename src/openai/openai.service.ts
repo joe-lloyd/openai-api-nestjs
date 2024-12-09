@@ -1,12 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import OpenAI from 'openai';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class OpenaiService {
   private openai: OpenAI;
 
-  constructor() {
-    this.openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  constructor(private configService: ConfigService) {
+    this.openai = new OpenAI({
+      apiKey: configService.get<string>('OPENAI_API_KEY'),
+    });
   }
 
   async generateCompletion(prompt: string): Promise<string> {
