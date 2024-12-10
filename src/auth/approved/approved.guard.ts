@@ -15,8 +15,6 @@ export class ApprovedGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const user = request.user;
 
-    console.log('ApprovedGuard - User:', user);
-
     if (!user) {
       throw new UnauthorizedException('User is not logged in');
     }

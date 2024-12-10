@@ -1,9 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { ChatEntity } from '../../chat/entities/chat.entity';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @Column({ unique: true })
   email: string;
@@ -15,5 +16,8 @@ export class User {
   isAdmin: boolean;
 
   @Column({ default: false })
-  isApproved: boolean; // Regular users need approval
+  isApproved: boolean;
+
+  @OneToMany(() => ChatEntity, (chat) => chat.user)
+  chats: ChatEntity[];
 }

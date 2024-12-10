@@ -2,11 +2,11 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { OpenaiService } from './openai/openai.service';
-import { OpenaiController } from './openai/openai.controller';
 import { OpenaiModule } from './openai/openai.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -17,10 +17,11 @@ import { ConfigModule } from '@nestjs/config';
       type: 'sqlite',
       database: 'db.sqlite',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true,
+      synchronize: true, // @TODO: Disable for production
     }),
+    ChatModule,
   ],
-  controllers: [AppController, OpenaiController],
+  controllers: [AppController],
   providers: [AppService, OpenaiService],
 })
 export class AppModule {}

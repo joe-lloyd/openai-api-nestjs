@@ -12,21 +12,15 @@ export class OpenaiService {
     });
   }
 
-  async generateCompletion(prompt: string): Promise<string> {
+  async generateCompletion(
+    messages: Array<{ role: 'user' | 'assistant'; content: string }>,
+  ): Promise<string> {
     try {
       const completion = await this.openai.chat.completions.create({
-        model: 'gpt-4o-mini',
-        messages: [
-          {
-            role: 'user',
-            content: prompt,
-          },
-        ],
+        model: 'gpt-4',
+        messages,
       });
-      console.log('Completion:', completion);
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      return completion;
+      return completion.choices[0].message.content;
     } catch (error) {
       console.error('Error with OpenAI API:', error);
       throw new Error('Failed to fetch data from OpenAI');
