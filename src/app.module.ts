@@ -7,6 +7,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { ChatModule } from './chat/chat.module';
+import { ChatEntity } from './chat/entities/chat.entity';
+import { MessageEntity } from './chat/entities/message.entity';
+import { User } from './auth/entities/user.entity';
 
 @Module({
   imports: [
@@ -16,7 +19,7 @@ import { ChatModule } from './chat/chat.module';
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'db.sqlite',
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      entities: [ChatEntity, MessageEntity, User],
       synchronize: true, // @TODO: Disable for production
     }),
     ChatModule,

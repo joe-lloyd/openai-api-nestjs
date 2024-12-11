@@ -12,6 +12,7 @@ import { ApiBearerAuth, ApiTags, ApiBody } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { ApprovedGuard } from '../auth/approved/approved.guard';
 import { AddMessageDto } from './dto/add-message.dto';
+import { CreateChatDto } from './dto/create-chat.dto';
 
 @ApiBearerAuth()
 @ApiTags('Chat')
@@ -21,9 +22,11 @@ export class ChatController {
   constructor(private readonly chatService: ChatService) {}
 
   @Post('new')
-  async createChat(@Request() req) {
+  @ApiBody({ type: CreateChatDto })
+  async createChat(@Request() req, @Body() addChatDto: CreateChatDto) {
+    const { model } = addChatDto;
     const userId = req.user.userId;
-    return this.chatService.createChat(userId);
+    return this.chatService.createChat(userId, model);
   }
 
   @Post(':chatId/message')

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import OpenAI from 'openai';
 import { ConfigService } from '@nestjs/config';
+import { ChatModel } from '../chat/entities/chat.entity';
 
 @Injectable()
 export class OpenaiService {
@@ -17,7 +18,7 @@ export class OpenaiService {
   ): Promise<string> {
     try {
       const completion = await this.openai.chat.completions.create({
-        model: 'gpt-4',
+        model: ChatModel.Gpt4oMini,
         messages,
       });
       return completion.choices[0].message.content;

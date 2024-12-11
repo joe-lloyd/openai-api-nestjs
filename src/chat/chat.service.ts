@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ChatEntity } from './entities/chat.entity';
+import { ChatEntity, ChatModel } from './entities/chat.entity';
 import { MessageEntity, MessageRole } from './entities/message.entity';
 import { OpenaiService } from '../openai/openai.service';
 
@@ -15,8 +15,11 @@ export class ChatService {
     private readonly openaiService: OpenaiService,
   ) {}
 
-  async createChat(userId: string): Promise<ChatEntity> {
-    const chat = this.chatRepository.create({ user: { id: userId } });
+  async createChat(userId: string, model: ChatModel): Promise<ChatEntity> {
+    const chat = this.chatRepository.create({
+      model,
+      user: { id: userId },
+    });
     return this.chatRepository.save(chat);
   }
 
