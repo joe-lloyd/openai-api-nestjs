@@ -37,7 +37,6 @@ export class ChatController {
   ) {
     const { content } = addMessageDto;
 
-    // Save user message, generate AI response, and save it
     return this.chatService.addMessageAndGenerateResponse(chatId, content);
   }
 
